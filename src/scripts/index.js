@@ -18,6 +18,10 @@ let baseURL = config.baseURL;
 let omega_and_fish_oil_URL = config.omega_and_fish_oil;
  let popular_combo_deals = config.popular_combo_deals;
 
+// importing gen_ren_func
+import { renderCardList } from "../components/gen_ren_func.js";
+
+
 // Fetching Oil Data
 ;(async function fetchFunc() {
     try {
@@ -40,40 +44,4 @@ let popular_combo_deals_div = document.getElementById('popular_combo_deals_div')
     } catch (error) {
         alert(error);
     }
-    
 })()
-
-// generateCard Function
-function generateCard(img,name,strikedPrice,price) {
-    return `
-        <div class="card">
-            <div class="card_img">
-                <img src=${`${img}`} alt="">
-            </div>
-            <div class="card_body">
-                <p class="card_name">${name.substring(0, 30)+'...'}</p>
-                <p class="pack_size"></p>
-                <p class="striked_price">${strikedPrice}</p>
-                <p class="price">${price}</p>
-            </div>
-        </div>
-    `
-}
-
-let oil_div = document.getElementById('oil_div');
-// renderCardList function 
-function renderCardList(container,data) {
-    container.innerHTML = `
-    <div class="card_list">
-    ${
-        data.map((item)=> {
-            let img = item.image;
-            let name = item.name;
-            // let pack_size = item.pack_size;
-            let striked_price = item.striked_price
-            let price = item.price;
-            return generateCard(img,name,striked_price,price);
-        }).join('')};
-    </div>
-    `;
-}

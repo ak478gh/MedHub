@@ -1,0 +1,40 @@
+*{
+    font-family: sans-serif;
+}
+#wrapper{
+    background-color: #f6f6f6 ;
+    display: flex;
+    border: 1px solid;
+    padding: 0 2vw;
+    column-gap: 2vw;
+    
+}
+#sorting_categories{
+    border: 1px solid;
+    flex: 1.5;
+    background-color: white;
+}
+#main_body{
+    border: 1px solid;
+    flex: 8.5;
+}
+#banners img{
+    width: 100%;
+    margin-bottom: 1vh;
+}
+
+#sub_heading_and_sort{
+    border: 1px solid;
+    display: flex;
+    padding: 0 4vw;
+    justify-content: space-between;
+}
+#sort{
+    display: flex;
+    align-items: center;
+    column-gap: 1vw;
+}
+select{
+    height: 4vh;
+    width: 15vw;
+}
