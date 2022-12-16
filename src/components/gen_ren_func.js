@@ -9,7 +9,10 @@ export function generateCard(img,name,strikedPrice,price) {
                 <p class="card_name">${name.substring(0, 30)+'...'}</p>
                 <p class="pack_size"></p>
                 <p class="striked_price">${strikedPrice}</p>
+                <div class="price_and_add_button">
                 <p class="price">${price}</p>
+                <button class="add_button">ADD</button>
+                </div>
             </div>
         </div>
     `

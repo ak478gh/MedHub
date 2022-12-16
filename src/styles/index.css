@@ -1,5 +1,6 @@
 *{
     margin: 0;
+    font-family: sans-serif;
     /* background-color: #f6f6f6; */
 }
 
@@ -87,6 +88,7 @@ h3{
 }
 .card:hover{
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 6px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+    cursor: pointer;
 }
 .card_img_div{
     margin-bottom: 5vh;
@@ -94,6 +96,10 @@ h3{
     display: flex;
     align-items: center;
     justify-content: center;
+}
+.card_body{
+    /* border: 1px solid; */
+    line-height: 3vh;
 }
 .card_name{
     font-size: 15px;
@@ -108,6 +114,15 @@ h3{
 .striked_price{
     font-size: 12px;
     color: gray;
+}
+.price_and_add_button{
+    /* border: 1px solid; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.add_button{
+    height: 3vh;
 }
 .price{
     font-size: 20px;
