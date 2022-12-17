@@ -1,3 +1,9 @@
+import config from "../../config.js";
+
+
+let baseURL = config.medicine;
+
+
 import { compNav } from "../components/compNav.js";
 let navbar_div = document.getElementById('navbar_div');
 navbar_div.innerHTML = compNav();
@@ -6,12 +12,22 @@ import { footerComp } from "../components/compFooter.js";
 let footer_div = document.getElementById('footer_div');
 footer_div.innerHTML = footerComp();
 
-let baseURL = "https://636f5f3cbb9cf402c8162143.mockapi.io/medicine";
+
+
+// function handel(){
+//   let x = document.querySelector("#select").value;
+// console.log(x)
+//   // if(x === "Low to High"){
+//   //   baseURL = "http://localhost:3000/medicines?sortBy=price&order=desc"
+//   //   fetchMedicineData();
+//   // }
+// }
+// handel()
 
 async function fetchMedicineData(pageNumber = 1, dataParPage = 10) {
   try {
     let fetchData = await fetch(
-      `${baseURL}?page=${pageNumber}&limit=${dataParPage}`
+      `${baseURL}?_page=${pageNumber}&_limit=${dataParPage}`
     );
     let data = await fetchData.json();
     // console.log(data);
@@ -20,7 +36,7 @@ async function fetchMedicineData(pageNumber = 1, dataParPage = 10) {
     console.log(err);
   }
 }
-fetchMedicineData(1, 10);
+fetchMedicineData();
 
 function getData(data) {
   document.getElementById("app").innerHTML = `
@@ -44,10 +60,13 @@ function getData(data) {
     addBtn.addEventListener("click", (event) => {
       let id = event.target.dataset.id;
       sendToCartPage(id)
-      // console.log(id)
+
+       //console.log(id)
+
     });
   }
 }
+ 
 
 function renderData(dataId, imgSrc, title, dis, price) {
   return `
@@ -58,7 +77,7 @@ function renderData(dataId, imgSrc, title, dis, price) {
       alt=${title}'s image
     />
   </div>
-  <div>
+  <div class = "card_t">
     <h3>${title}</h3>
     <p>${dis}</p>
     <p>MRP₹ ${price}</p>
@@ -82,8 +101,6 @@ function renderPaginationBtn(totalPage) {
   for (let paginationBtn of paginationBtns) {
     paginationBtn.addEventListener("click", (event) => {
       let pageNumber = event.target.dataset.id;
-
-      console.log(event);
       fetchMedicineData(pageNumber, 10);
     });
   }
@@ -110,16 +127,30 @@ async function sendToCartPage(id){
   try{
     let fetchCartData = await fetch(`${baseURL}/${id}`)
     let data = await fetchCartData.json()
-    setLocalStorge(data)
+    
+    sendData(data)
   }
   catch(err){
     console.log(err)
   }
 }
 
-var LSarray = [];
-function setLocalStorge(data){
-  LSarray.push(data)
-  localStorage.setItem("LSarray", JSON.stringify(LSarray))
-  // console.log(LSarray)
+let cartURL = config.cartItem
+async function sendData(data){
+  try{
+    let res = await fetch(cartURL,{
+      method: "POST",
+      headers:{
+        "Content-Type" : "application/json"
+      },
+      body : JSON.stringify(data)
+    })
+    if(res.ok){
+      alert("Item added to cart")
+    }
+  }
+  catch(err){
+    console.log(err)
+  }
 }
+
