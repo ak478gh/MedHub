@@ -1,6 +1,6 @@
 import config from "../../config.js";
-let protein_URL = `${config.proteins}?_sort=price`
-let omega_and_fish_oil_URL = config.omega_and_fish_oil;
+let protein_URL = config.proteins;
+// let omega_and_fish_oil_URL = config.omega_and_fish_oil;
 
 // importing Navbar and Footer
 import { footerComp } from "../components/compFooter.js";
@@ -18,15 +18,13 @@ footer_div.innerHTML = footerComp();
 import { get_sorted_data } from "../components/sort_func.js";
 
 // importing renderCardList() function
-import { renderCardList, generateCard } from "../components/gen_ren_func.js";
-import { crud_get_opt } from "../components/CRUD_opt.js";
+import { generateCard } from "../components/gen_ren_func.js";
+// import { crud_get_opt } from "../components/CRUD_opt.js";
 
 
-// let protein_data_div = document.getElementById('protein_data_div');
-
-async function fetch_protein_data(page_number=1,data_per_page=8) {
+async function fetch_protein_data(page_number=1,data_per_page=10) {
     try {
-        let res = await fetch(`https://lame-hammer-server3.onrender.com/proteins/?_page=${page_number}&_limit=${data_per_page}`);
+        let res = await fetch(`https://lame-hammer-server4.onrender.com/proteins/?_page=${page_number}&_limit=${data_per_page}`);
         let protein_data = await res.json();
         // console.log(protein_data)
         // renderCardList2(protein_data_div,protein_data);
@@ -48,7 +46,8 @@ function renderCardList2(data) {
             let dataId = item.id;
             let img = item.image;
             let name = item.name;
-            let strikedPrice = item.strikedPrice;
+            // let strikedPrice = item.strikedPrice;
+            let strikedPrice = 'XYZ Proteins';
             // let dis = item.description;
             let price = item.price;
             return generateCard(dataId,img,name,strikedPrice,price)
@@ -64,7 +63,7 @@ function renderCardList2(data) {
         let id = event.target.dataset.id;
         // let id = event.target.dataset.id;
         get_protein_item_by_id(id)
-  
+        
          console.log(id)
   
       });
@@ -77,7 +76,7 @@ function renderCardList2(data) {
 
 async function get_protein_item_by_id(id){
   try{
-    let fetchproteinData = await fetch(`https://lame-hammer-server3.onrender.com/proteins/${id}`)
+    let fetchproteinData = await fetch(`https://lame-hammer-server4.onrender.com/proteins/${id}`)
     let protein_item = await fetchproteinData.json()
     console.log(protein_item);
     sent_to_cart(protein_item);
@@ -89,7 +88,7 @@ async function get_protein_item_by_id(id){
 
 async function sent_to_cart(data) {
   try {
-    let res = await fetch(`https://lame-hammer-server3.onrender.com/cartItem`,{
+    let res = await fetch(`https://lame-hammer-server4.onrender.com/cartItem`,{
       method: 'POST',
       
       headers: {
@@ -107,33 +106,38 @@ async function sent_to_cart(data) {
   }
 }
 
-//=======
-// Sorting Function
-// let sort_button = document.getElementById('select');
-// sort_button.addEventListener('change', ()=> {
-//     if(sort_button.value==='high_to_low') {
-//         protein_data_div.innerHTML = null;
-//         console.log(sort_button.value);
-//         // renderCardList2(protein_data_div,get_sorted_data(protein_URL, 'price'));
-//         // get_sorted_data(protein_URL, 'price');
-//         // renderCardList2(protein_data_div,protein_data);
-//         ;(async function() {
-//             let res = await fetch(`${protein_URL}?_sort=${sortBy}&_order=asc`)
-//             let data = await res.json()
-//             renderCardList2(protein_data_div, data)
-//         })
-        
-//     }
+// ====================
+// let arr = await get_sorted_data(protein_URL, 'price', 'desc')
+// arr.map((item)=> {
+//   console.log(item.price)
 // })
 
-// get_sorted_data(protein_URL, 'price')
+// ====================
+
+//==================
+// Sorting Function
+let sorted_protein_data_asc = await get_sorted_data(protein_URL, 'price', 'asc');
+let sorted_protein_data_desc = await get_sorted_data(protein_URL, 'price', 'desc')
+
+let sort_button = document.getElementById('sort_tag');
+sort_button.addEventListener('change', ()=> {
+  if(sort_button.value=='low_to_high') {
+    document.getElementById('protein_data_div').innerHTML = null;
+    renderCardList2(sorted_protein_data_asc);
+    
+  } else if(sort_button.value=='high_to_low') {
+    document.getElementById('protein_data_div').innerHTML = null;
+    renderCardList2(sorted_protein_data_desc);
+  }
+})
+
 
 // =========
 // Pagination:
 
 let pagination_button_wrapper = document.getElementById('pagination_button_wrapper');
 
-let total_page = Math.ceil(50/8);
+let total_page = Math.ceil(50/10);
 
 function render_pagination_button(total_page) {
   pagination_button_wrapper.innerHTML = `
@@ -148,7 +152,7 @@ function render_pagination_button(total_page) {
       let page_number = event.target.dataset.id;
       // console.log(event);
       console.log(page_number);
-      fetch_protein_data(page_number,8);
+      fetch_protein_data(page_number,10);
     })
   } 
 }

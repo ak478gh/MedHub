@@ -9,7 +9,7 @@ export function generateCard(dataId,img,name,strikedPrice,price) {
                 <img src=${`${img}`} alt="">
             </div>
             <div class="card_body">
-                <p class="card_name">${name.substring(0, 30)+'...'}</p>
+                <p class="card_name">${name.substring(0, 100)+'...'}</p>
                 <p class="pack_size"></p>
                 <p class="striked_price">${strikedPrice}</p>
                 <div class="price_and_add_button">
